@@ -26,17 +26,21 @@ export default function Features(props) {
         var reader = new FileReader();
         reader.onload = function(e) {
 
+            var count = 0;
             let lines = reader.result.split('\n');
 
             lines.forEach(element => {
                 var temp = element.split(",");
                 etherAddresses.push(temp[0]);
-                etherBalances.push((temp[1]*1000000000000000000).toString());              
+                etherBalances.push((temp[1]*1000000000000000000).toString());   
+                count = count + parseFloat(temp[1]);
             });
+            console.log(count)
+            setTotalEtherAmount(count.toString())
             console.log(etherAddresses);
             console.log(etherBalances)
             setEtherAddresses(etherAddresses);
-            setEtherBalances(etherBalances);    
+            setEtherBalances(etherBalances);  
         }
         reader.readAsText(files[0]);
     }
@@ -73,7 +77,7 @@ export default function Features(props) {
 
         console.log(tokenContract);
 
-        const result = await tokenContract.methods.approve("0xf6f7ba71a1EA85CE09063180E6F6919C50EE1056","1000000000000000000000").send({from:props.account});
+        const result = await tokenContract.methods.approve("0xd00333EE2155CBFDc46B87A96DAc764104d7da8A","1000000000000000000000").send({from:props.account});
         console.log(result)
 
     }
@@ -96,7 +100,7 @@ export default function Features(props) {
             ERC20Address,
             tokenAddresses,
             tokenBalances
-            ).send({from: props.account, value:web3.utils.toWei('0.11', "ether")});
+            ).send({from: props.account, value:web3.utils.toWei('0.01', "ether")});
 
         console.log(result)
     }
@@ -115,7 +119,7 @@ export default function Features(props) {
                                     <div id="message"></div>
                                     <AvForm name="contact-form" id="contact-form">
                                         <Row>
-                                            <Col lg="6">
+                                            {/* <Col lg="6">
                                                 <AvField type="text" className="form-group mt-2" name="name" id="name" placeholder="Total Amount in ETH*" required
                                                     errorMessage=""
                                                     validate={{
@@ -125,7 +129,7 @@ export default function Features(props) {
                                                       onChange={(event) => setTotalEtherAmount(event.target.value)}
                                                 />
                                                
-                                            </Col>
+                                            </Col> */}
                                             {/* <Col lg="6">
                                                 <AvField type="text" className="form-group mt-2" name="email" id="email" placeholder="Decimal*" required
                                                     errorMessage=""

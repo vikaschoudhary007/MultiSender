@@ -33,7 +33,12 @@ class Index3 extends Component {
             <React.Fragment>
 
                 {/* Importing Navbar */}
-                <NavbarPage navClass={this.state.navClass} account={this.props.account}/>
+                <NavbarPage 
+                    navClass = {this.state.navClass} 
+                    account = {this.props.account} 
+                    walletConnected = {this.props.walletConnected}
+                    handleConnectWallet = {this.props.handleConnectWallet}
+                    />
 
                 {/* Importing Section */}
                 <Section/>

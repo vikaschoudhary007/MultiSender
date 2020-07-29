@@ -79,7 +79,12 @@ class Navbar_Page extends Component {
                                         <div className="nav-button ml-auto">
                                             <Nav className="navbar-right" navbar>
                                                 <NavItem>
-                                            <Button type="button" className="btn-custom navbar-btn btn-rounded waves-effect waves-light">{this.props.account}</Button>
+                                                    
+                                                      {this.props.walletConnected
+                                                        ? <Button type="button" className="btn-custom navbar-btn btn-rounded waves-effect waves-light">{this.props.account}</Button>
+                                                        : <Button type="button" className="btn-custom navbar-btn btn-rounded waves-effect waves-light" onClick={this.props.handleConnectWallet}>Connect Wallet</Button>
+                                                      }                                                 
+                                                    
                                                 </NavItem>
                                             </Nav>
                                         </div>
