@@ -17,15 +17,14 @@ export default function Features(props) {
     const [tokenAddresses, setTokenAddresses] = useState([]);
     const [tokenBalances, setTokenBalances] = useState([])
     const [decimal,setDecimal] = useState(18);
-    
+  
+
     const uploadCsvForEther = (files) => {
 
-        setEtherAddresses([]);
-        setEtherBalances([])
-
         var reader = new FileReader();
+     
         reader.onload = function(e) {
-
+         
             var count = 0;
             let lines = reader.result.split('\n');
 
@@ -34,7 +33,9 @@ export default function Features(props) {
                 etherAddresses.push(temp[0]);
                 etherBalances.push((temp[1]*1000000000000000000).toString());   
                 count = count + parseFloat(temp[1]);
+                
             });
+            
             console.log(count)
             setTotalEtherAmount(count.toString())
             console.log(etherAddresses);
@@ -43,12 +44,10 @@ export default function Features(props) {
             setEtherBalances(etherBalances);  
         }
         reader.readAsText(files[0]);
+       
     }
 
     const uploadCsvForToken = (files) => {
-
-        setTokenAddresses([]);
-        setTokenBalances([])
 
         var reader = new FileReader();
         reader.onload = function(e) {
@@ -66,6 +65,7 @@ export default function Features(props) {
             setTokenBalances(tokenBalances);    
         }
         reader.readAsText(files[0]);
+
     }
 
     const initialize = async() => {
@@ -85,6 +85,10 @@ export default function Features(props) {
 
         console.log(tokenContract);
 
+        // const decimal = await tokenContract.methods.decimals().call();
+
+        // setDecimal(decimal);
+
         const result = await tokenContract.methods.approve(
             "0xd00333EE2155CBFDc46B87A96DAc764104d7da8A",
             "1000000000000000000000")
@@ -95,7 +99,7 @@ export default function Features(props) {
 
 
     const sendEther = async()  => {
-
+        
         if(props.multiSender == undefined){
             swal({
                 content: generateElement(`Connect to wallet first`),
@@ -114,7 +118,12 @@ export default function Features(props) {
            etherBalances
             ).send({from: props.account, value:web3.utils.toWei(totalEtherAmount, 'ether')})
         
-        console.log(result)       
+        console.log(result)   
+
+        setTotalEtherAmount("")
+        setEtherAddresses([]);
+        setEtherBalances([])
+
     }
 
     const sendToken = async() => {
@@ -142,6 +151,9 @@ export default function Features(props) {
             ).send({from: props.account, value:web3.utils.toWei('0.01', "ether")});
 
         console.log(result)
+        setERC20Address("");
+        setTokenAddresses([]);
+        setTokenBalances([]);
     }
 
         return (
