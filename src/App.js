@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import './App.css';
-import routes from "./routes";
-import {
-  withRouter,
-  Route,
-  Switch,
-  BrowserRouter as Router
-} from "react-router-dom";
+// import {
+//   withRouter,
+//   BrowserRouter as Router
+// } from "react-router-dom";
 import Index3 from "./pages/Index3/Index3"
 import getWeb3 from "./getWeb3";
 import MultiSenderContract from "./contracts/MultiSender.json"
@@ -80,24 +77,16 @@ class App extends Component {
       }
         return (
           <React.Fragment>
-          {/* <Router>
-            <Switch>
-              {routes.map((route, idx) => (
-                <Route path={route.path} component={route.component} key={idx}/>
-              ))}
-              <Route path="/" component={Index3}/>
-            </Switch>
-          </Router> */}
-          <Index3 
-            account = {this.state.accounts[0]} 
-            multiSender = {this.state.MultiSender} 
-            web3 = {this.state.web3} 
-            walletConnected = {this.state.walletConnected}
-            
-            />
+            <Index3 
+              account = {this.state.accounts[0]} 
+              multiSender = {this.state.MultiSender} 
+              web3 = {this.state.web3} 
+              walletConnected = {this.state.walletConnected}
+              
+              />
         </React.Fragment>
       );
     }
 }
   
-  export default withRouter(App);
+  export default App;
