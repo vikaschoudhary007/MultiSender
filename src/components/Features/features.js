@@ -69,6 +69,14 @@ export default function Features(props) {
     }
 
     const initialize = async() => {
+
+        if(ERC20Address == ""){
+            swal({
+                content: generateElement(`Please Enter Token Address first`),
+                icon: "error",
+            })
+        }
+
         const Web3 = new web3(web3.givenProvider);
         const accounts = await Web3.eth.getAccounts();
         console.log(accounts)
@@ -94,6 +102,12 @@ export default function Features(props) {
                 icon: "error",
               })
         }
+        else if(totalEtherAmount == ""){
+            swal({
+                content: generateElement(`Upload CSV file first`),
+                icon: "error",
+              })
+        }
       
         const result = await props.multiSender.methods.mutiSendETHWithDifferentValue(
            etherAddresses,
@@ -109,7 +123,14 @@ export default function Features(props) {
             swal({
                 content: generateElement(`Connect to wallet first`),
                 icon: "error",
-              })
+            })
+        }
+
+        else if(ERC20Address == ""){
+            swal({
+                content: generateElement(`Upload CSV file first`),
+                icon: "error",
+            })
         }
 
         console.log(ERC20Address)
