@@ -1,22 +1,7 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
 import { Container, Row, Col } from "reactstrap";
 
-//Importing Modal
-import ModalSection from '../../components/common/ModalSection';
-
 class Section extends Component {
-    constructor() {
-        super();
-        this.state = {
-            isOpen: false
-        }
-        this.callModal.bind(this)
-    }
-
-    callModal = () => {
-        this.refs.child.openModal();
-    }
     
     render() {
         return (
@@ -38,17 +23,8 @@ class Section extends Component {
                                             <span style={{paddingLeft:10}}>Kovan</span>
                                         </p>
                                         <p className="play-shadow margin-t-30 margin-l-r-auto">
-                                        {/* <Link
-                                            onClick={this.callModal}
-                                            to="#"
-                                            className="play-btn video-play-icon"
-                                        >
-                                            <i className="mdi mdi-play text-center"></i>
-                                        </Link> */}
                                         </p>   
                                     </Col>
-                                    {/* Render ModalSection Component for Modal */}
-                                    {/* <ModalSection ref="child" channel='vimeo' videoId='99025203' /> */}
                                 </Row>
                             </Container>
                         </div>
