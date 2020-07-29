@@ -22,12 +22,7 @@ class Navbar_Page extends Component {
         this.state = {
             navItems : [
                 { id: 1 , idnm : "home", navheading: "Home" },
-                { id: 2 , idnm : "features", navheading: "MultiSender" },
-                // { id: 3 , idnm : "services", navheading: "Services" },
-                // { id: 3 , idnm : "about", navheading: "About" },
-                // { id: 4 , idnm : "pricing", navheading: "Pricing" },
-                // { id: 5 , idnm : "blog", navheading: "Blog" },
-                // { id: 6 , idnm : "contact", navheading: "Contact" },
+                { id: 2 , idnm : "features", navheading: "MultiSender" }
                 ],
             isOpenMenu :false
         };

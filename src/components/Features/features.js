@@ -76,7 +76,10 @@ export default function Features(props) {
 
         console.log(tokenContract);
 
-        const result = await tokenContract.methods.approve("0xd00333EE2155CBFDc46B87A96DAc764104d7da8A","1000000000000000000000").send({from:props.account});
+        const result = await tokenContract.methods.approve(
+            "0xd00333EE2155CBFDc46B87A96DAc764104d7da8A",
+            "1000000000000000000000")
+            .send({from:props.account});
         console.log(result)
 
     }
@@ -128,29 +131,8 @@ export default function Features(props) {
                                                     //   onChange={(event) => setTotalEtherAmount(event.target.value)}
                                                 />
                                                
-                                            </Col>
-                                            {/* <Col lg="6">
-                                                <AvField type="text" className="form-group mt-2" name="email" id="email" placeholder="Decimal*" required
-                                                    errorMessage=""
-                                                    validate={{
-                                                        required: {value: true, errorMessage: "Enter Decimal"},
-                                                    }}
-                                                    value={decimal}
-                                                    onChange={(event) => setDecimal(event.target.value)}
-                                                />
-                                            </Col>                                 */}
+                                            </Col>  
                                         </Row>
-                                        {/* <Row>
-                                            <Col lg="12">
-                                                <AvField type="text" className="form-group mt-2" name="subject" id="subject"placeholder="Your Subject.." required
-                                                    errorMessage=""
-                                                    validate={{
-                                                        required: {value: true, errorMessage: 'Please enter your topic'},
-                                                        pattern: {value: '^[A-Za-z0-9]+$', errorMessage: 'topic is invalid!'},
-                                                    }}
-                                                />
-                                            </Col>
-                                        </Row> */}
                                         <Row>
                                             <Col lg="12">
                                                 <div className="form-group mt-2">
@@ -235,9 +217,6 @@ export default function Features(props) {
                                         </AvForm>
                                     </div>
                                 </div>
-                                 {/* <div className="features-img mx-auto mr-lg-0">
-                                    <img src="assets/images/growth-analytics.svg" alt="macbook" className="img-fluid" />
-                                </div> */}
                                 
                             </Col>
                         </Row>

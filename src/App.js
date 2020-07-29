@@ -1,9 +1,5 @@
 import React, { Component } from "react";
 import './App.css';
-// import {
-//   withRouter,
-//   BrowserRouter as Router
-// } from "react-router-dom";
 import Index3 from "./pages/Index3/Index3"
 import getWeb3 from "./getWeb3";
 import MultiSenderContract from "./contracts/MultiSender.json"

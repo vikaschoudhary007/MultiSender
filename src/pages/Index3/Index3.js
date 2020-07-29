@@ -33,36 +33,9 @@ class Index3 extends Component {
 
                 {/* Importing Section */}
                 <Section/>
-            
-                {/* Importing Client */}
-                {/* <Clients/> */}
 
                 {/* Importing Features */}
                 <Features multiSender = {this.props.multiSender} account={this.props.account} web3={this.props.web3}/>
-
-                {/* Importing Services */}
-                {/* <Services/> */}
-
-                {/* Importing Website Description */}
-                {/* <WebsiteDescription/> */}
-
-                {/* Importing About Us */}
-                {/* <AboutUs/> */}
-
-                {/* Importing Pricing */}
-                {/* <Pricing/> */}
-
-                {/* Importing Testimonials */}
-                {/* <Testimonials/> */}
-
-                {/* Importing Get Started */}
-                {/* <GetStarted/> */}
-
-                {/* Importing Blog */}
-                {/* <Blog/> */}
-
-                {/* Importing Contact Us */}
-                {/* <ContactUs/> */}
 
                 {/* Importing Get Footer */}
                 <Footer/>
