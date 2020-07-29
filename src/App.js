@@ -68,7 +68,10 @@ class App extends Component {
       if (!this.state.loaded) {
        
         return(
-          <Index3 walletConnected={this.state.walletConnected} handleConnectWallet = {this.handleConnectWallet}/>
+          <Index3 
+            walletConnected={this.state.walletConnected} 
+            handleConnectWallet = {this.handleConnectWallet}
+          />
         )
       }
         return (

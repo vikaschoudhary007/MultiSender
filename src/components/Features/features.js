@@ -4,7 +4,8 @@ import { AvForm, AvField } from 'availity-reactstrap-validation';
 import ReactFileReader from "react-file-reader";
 import web3 from "web3";
 import ERC20Abi from "../../contracts/ERC20ABI.json";
-
+import swal from "sweetalert";
+import generateElement from "../../generateElement"
 
 export default function Features(props) {
 
@@ -86,6 +87,13 @@ export default function Features(props) {
 
 
     const sendEther = async()  => {
+
+        if(props.multiSender == undefined){
+            swal({
+                content: generateElement(`Connect to wallet first`),
+                icon: "error",
+              })
+        }
       
         const result = await props.multiSender.methods.mutiSendETHWithDifferentValue(
            etherAddresses,
@@ -96,6 +104,14 @@ export default function Features(props) {
     }
 
     const sendToken = async() => {
+
+        if(props.multiSender == undefined){
+            swal({
+                content: generateElement(`Connect to wallet first`),
+                icon: "error",
+              })
+        }
+
         console.log(ERC20Address)
        
         const result = await props.multiSender.methods.mutiSendCoinWithDifferentValue(
