@@ -119,17 +119,17 @@ export default function Features(props) {
                                     <div id="message"></div>
                                     <AvForm name="contact-form" id="contact-form">
                                         <Row>
-                                            {/* <Col lg="6">
-                                                <AvField type="text" className="form-group mt-2" name="name" id="name" placeholder="Total Amount in ETH*" required
-                                                    errorMessage=""
-                                                    validate={{
-                                                        required: {value: true, errorMessage: "This field is mandatory"},
-                                                      }}
+                                            <Col lg="6">
+                                                <AvField readOnly="true" type="text" className="form-group mt-2" name="name" id="name" placeholder="Total Amount in ETH*" 
+                                                    // errorMessage=""
+                                                    // validate={{
+                                                    //     required: {value: true, errorMessage: "This field is mandatory"},
+                                                    //   }}
                                                       value={totalEtherAmount}
-                                                      onChange={(event) => setTotalEtherAmount(event.target.value)}
+                                                    //   onChange={(event) => setTotalEtherAmount(event.target.value)}
                                                 />
                                                
-                                            </Col> */}
+                                            </Col>
                                             {/* <Col lg="6">
                                                 <AvField type="text" className="form-group mt-2" name="email" id="email" placeholder="Decimal*" required
                                                     errorMessage=""
