@@ -1,6 +1,6 @@
 const path = require("path");
 const HDWalletProvider = require("@truffle/hdwallet-provider");
-const MNEMONIC = "hero spirit buddy copy slam glimpse tube soup senior cat hollow bronze";
+const MNEMONIC = "Your Mnemonic";
 
 module.exports = {
    
@@ -13,7 +13,7 @@ module.exports = {
       },
       ropsten: {
         provider: function() {
-          return new HDWalletProvider(MNEMONIC, "https://ropsten.infura.io/v3/b722162e84334277a6b60a2f5d923fde")
+          return new HDWalletProvider(MNEMONIC, "https://ropsten.infura.io/v3/YORE API KEY")
         },
         network_id: 3,
         gas: 4000000      //make sure this gas allocation isn't over 4M, which is the max
