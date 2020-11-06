@@ -159,6 +159,19 @@ b {
     top: 0;
 }
 
+.bg-overlay-tron {
+    background: #005C97;  /* fallback for old browsers */
+    background: linear-gradient(to right, #363795,#8D021f, #005C97); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    opacity: 0.95;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    top: 0;
+}
+
 .bg-overlay-light {
     background-color: rgba(0, 0, 0, 0.5);
 }

@@ -7,7 +7,7 @@ class Section extends Component {
         return (
             <React.Fragment>
                 <section className="section bg-home height-80vh" id="home">
-                    <div className="bg-overlay"></div>
+                    <div className="bg-overlay-tron"></div>
                     <div className="display-table">
                         <div className="display-table-cell">
                             <Container >
@@ -18,11 +18,11 @@ class Section extends Component {
                                                 <h4 className="home-small-title" style={{paddingTop:"60px"}}>MultiSender</h4>
                                                 <h1 className="home-title">We Support All Networks</h1>
                                                 <p className="padding-t-15 home-desc mx-auto">
-                                                    <span>Ethereum MainNet</span>
-                                                    <span style={{paddingLeft:10}}>Ropsten</span>
-                                                    <span style={{paddingLeft:10}}>Rinkby</span>
-                                                    <span style={{paddingLeft:10}}>Gorli</span>
-                                                    <span style={{paddingLeft:10}}>Kovan</span>
+                                                    <span>MainNet</span>
+                                                    
+                                                    <span style={{paddingLeft:10}}>Shasta</span>
+                                                    <span style={{paddingLeft:10}}>Tronex</span>
+                                                    <span style={{paddingLeft:10}}>Nile</span>
                                                 </p>
                                                 <p className="play-shadow margin-t-30 margin-l-r-auto">
                                                 </p> 

@@ -5,7 +5,9 @@ import ReactFileReader from "react-file-reader";
 import web3 from "web3";
 import ERC20Abi from "../../contracts/ERC20ABI.json";
 import swal from "sweetalert";
-import generateElement from "../../generateElement"
+import generateElement from "../../generateElement";
+
+import SectionTitle from "../common/section-title";
 
 export default function Features(props) {
 
@@ -17,27 +19,57 @@ export default function Features(props) {
     const [tokenAddresses, setTokenAddresses] = useState([]);
     const [tokenBalances, setTokenBalances] = useState([])
     const [decimal,setDecimal] = useState(18);
+    const [initialized, setInitilized] = useState(false);
+
+    const [ShowEtherAddresses, setShowEtherAddresses] = useState([]);
+    const [ShowTokenAddresses, setShowTokenAddresses] = useState([]);
+
+    const [loading, setLoading] = useState(false);
   
 
-    const uploadCsvForEther = (files) => {
+    const uploadCsvForEther = async (files) => {
 
         var reader = new FileReader();
      
         reader.onload = function(e) {
-         
+            
+            setShowEtherAddresses(reader.result);
             var count = 0;
             let lines = reader.result.split('\n');
-
+            console.log(lines)
             lines.forEach(element => {
-                var temp = element.split(",");
-                etherAddresses.push(temp[0]);
-                etherBalances.push((temp[1]*1000000000000000000).toString());   
-                count = count + parseFloat(temp[1]);
+
+                if(element !== ""){
+                    var temp = element.split(",");
+                    etherAddresses.push(temp[0]);
+                    etherBalances.push((temp[1]*1000000000000000000).toString());  
+                }
                 
             });
+
             
             console.log(count)
-            setTotalEtherAmount(count.toString())
+
+            // etherAddresses.forEach(function(item) {
+            //     if(item === ""){
+            //         etherAddresses.pop(item)
+            //     }
+            // })
+
+            // etherBalances.forEach(function(item) {
+            //     if(isNaN(item)){
+            //         etherBalances.pop(item)
+            //     }
+            // })
+
+
+
+            etherBalances.forEach(function(item) {
+                count = count + parseFloat(item / (10 ** 18));
+            });
+
+            setTotalEtherAmount(count)
+            console.log(count);
             console.log(etherAddresses);
             console.log(etherBalances)
             setEtherAddresses(etherAddresses);
@@ -52,6 +84,7 @@ export default function Features(props) {
         var reader = new FileReader();
         reader.onload = function(e) {
 
+            setShowTokenAddresses(reader.result);
             let lines = reader.result.split('\n');
 
             lines.forEach(element => {
@@ -59,6 +92,23 @@ export default function Features(props) {
                 tokenAddresses.push(temp[0]);
                 tokenBalances.push((temp[1]*1000000000000000000).toString());              
             });
+
+            // tokenAddresses.pop(0,-1)
+            // tokenBalances.pop(0,-1)
+
+            tokenAddresses.forEach(function(item) {
+                if(item === ""){
+                    tokenAddresses.pop(item)
+                }
+            })
+
+            tokenBalances.forEach(function(item) {
+                if(item === "NaN"){
+                    tokenBalances.pop(item)
+                }
+            })
+
+
             console.log(tokenAddresses);
             console.log(tokenBalances)
             setTokenAddresses(tokenAddresses);
@@ -70,16 +120,33 @@ export default function Features(props) {
 
     const initialize = async() => {
 
-        if(ERC20Address == ""){
+        if(props.multiSender === undefined){
+            swal({
+                content: generateElement(`Connect to wallet first`),
+                icon: "error",
+              })
+            return  
+        }
+
+        else if(ERC20Address === ""){
             swal({
                 content: generateElement(`Please Enter Token Address first`),
                 icon: "error",
             })
+            return
+        }
+
+        else if(initialized === true){
+            swal({
+                content: generateElement(`This Token is already initilized`),
+                icon: "error",
+            })
+            return
         }
 
         const Web3 = new web3(web3.givenProvider);
         const accounts = await Web3.eth.getAccounts();
-        console.log(accounts)
+        // console.log(accounts)
 
         const tokenContract = new Web3.eth.Contract(ERC20Abi,ERC20Address)
 
@@ -90,70 +157,132 @@ export default function Features(props) {
         // setDecimal(decimal);
 
         const result = await tokenContract.methods.approve(
-            "0xd00333EE2155CBFDc46B87A96DAc764104d7da8A",
+            "0x2A55873CD7dd73ce0F54ea4b1f541928cF765270",
             "1000000000000000000000")
             .send({from:props.account});
-        console.log(result)
+
+        setInitilized(true)    
+        // console.log(result)
 
     }
 
+    // const isVIP = async (value) => {
+    //     var result = await props.multiSender.methods.isVIP(value).call()
+    //     console.log(result)
+    //     return result;
+    // }
+
 
     const sendEther = async()  => {
-        
-        if(props.multiSender == undefined){
+
+
+        if(props.multiSender === undefined){
             swal({
                 content: generateElement(`Connect to wallet first`),
                 icon: "error",
               })
+              return
         }
-        else if(totalEtherAmount == ""){
+
+        if(totalEtherAmount === ""){
             swal({
-                content: generateElement(`Upload CSV file first`),
+                content: generateElement(`Upload CSV first`),
                 icon: "error",
               })
+              return
         }
+
+
+
+        if(etherAddresses.length > 150){
+            swal({
+                content: generateElement(`Please upload upto 150 Addresses only`),
+                icon: "error",
+              })
+            return
+        }
+
+        var isVip = await props.multiSender.methods.isVIP(props.account).call()
+        console.log(isVip)
+
+        if(isVip){
+            var Amount = (totalEtherAmount).toString(); 
+        }
+
+        else {
+            var Amount = (totalEtherAmount + 0.01).toString(); 
+        }
+        
+
       
         const result = await props.multiSender.methods.mutiSendETHWithDifferentValue(
            etherAddresses,
            etherBalances
-            ).send({from: props.account, value:web3.utils.toWei(totalEtherAmount, 'ether')})
+            ).send({from: props.account, value:web3.utils.toWei((Amount), 'ether')})
         
-        console.log(result)   
+        // console.log(result)   
 
         setTotalEtherAmount("")
         setEtherAddresses([]);
-        setEtherBalances([])
+        setEtherBalances([]);
+        setShowEtherAddresses([])
 
     }
 
     const sendToken = async() => {
 
-        if(props.multiSender == undefined){
+        setLoading(true);
+
+        var isVip = await props.multiSender.methods.isVIP(props.account).call()
+        console.log(isVip)
+
+        if(isVip){
+            var Amount = (0).toString(); 
+        }
+
+        else {
+            var Amount = (0.01).toString(); 
+        }
+
+        if(props.multiSender === undefined){
             swal({
                 content: generateElement(`Connect to wallet first`),
                 icon: "error",
             })
+            return
         }
 
-        else if(ERC20Address == ""){
+        else if(ERC20Address === ""){
+            swal({
+                content: generateElement(`Please Enter Token Address first`),
+                icon: "error",
+            })
+            return
+        }
+
+        else if(tokenAddresses === []){
             swal({
                 content: generateElement(`Upload CSV file first`),
                 icon: "error",
             })
+            return
         }
 
-        console.log(ERC20Address)
+        // console.log(ERC20Address)
        
         const result = await props.multiSender.methods.mutiSendCoinWithDifferentValue(
             ERC20Address,
             tokenAddresses,
             tokenBalances
-            ).send({from: props.account, value:web3.utils.toWei('0.01', "ether")});
+            ).send({from: props.account, value:web3.utils.toWei(Amount, "ether")});
 
-        console.log(result)
+        setLoading(false);    
+
+        // console.log(result)
         setERC20Address("");
         setTokenAddresses([]);
         setTokenBalances([]);
+        setShowTokenAddresses([]);
     }
 
         return (
@@ -161,7 +290,9 @@ export default function Features(props) {
                 <section className="section" id="features">
                 {/* <div style={{textAlign:"center"}}><h2>USE MULTISENDER</h2></div> */}
                     <Container>  
-                    
+
+                    <SectionTitle title="MultiSend Ether" description="Description Here."/>
+
                         <Row className="align-items-center">
                             <Col lg="5" className="order-2 order-lg-1">
                                 <div ><h2>Transfer Ether</h2></div>
@@ -185,13 +316,18 @@ export default function Features(props) {
                                         <Row>
                                             <Col lg="12">
                                                 <div className="form-group mt-2">
-                                                    <textarea readOnly="true" name="comments" id="comments"  rows="4" className="form-control" placeholder="List of Addresses in CSV"></textarea>
+                                                    <textarea readOnly="true" name="comments" id="comments"  rows="4" className="form-control" placeholder="List of Addresses in CSV"
+                                                        value={ShowEtherAddresses}
+                                                    >
+
+                                                    </textarea>
+                                                    <p>Upload upto 150 Addresses at a time.</p>
                                                 </div>
                                             </Col>
                                         </Row>
                                         <Row>
                                             <Col lg="6" className="text-left">
-                                                <ReactFileReader fileTypes={".csv"} multipleFiles={false} handleFiles={uploadCsvForEther}>
+                                                <ReactFileReader fileTypes={[".csv",".xlsx","xlsm",".xlsb","xltx",".xltm",".xls",".xlt",".xml",".xlam",".xla","xlw",".xlr"]} multipleFiles={false} handleFiles={uploadCsvForEther}>
                                                     <button  className="submitBnt btn btn-custom">Upload CSV file </button>
                                                     <div id="simple-msg"></div>
                                                 </ReactFileReader>
@@ -220,7 +356,7 @@ export default function Features(props) {
                                         <AvForm>
                                             <Row>
                                                 <Col lg="8">
-                                                    <AvField type="text" className="form-group mt-2" name="name" id="name" placeholder="Token Address*" required
+                                                    <AvField type="text" className="form-group mt-2" name="name" id="name" placeholder="Token Contract Address*" required
                                                         errorMessage=""
                                                         validate={{
                                                             required: {value: true, errorMessage: "This field is mandatory"},
@@ -243,7 +379,11 @@ export default function Features(props) {
                                             <Row>
                                                 <Col lg="12">
                                                     <div className="form-group mt-2">
-                                                        <textarea readOnly="true" name="comments" id="comments"  rows="4" className="form-control" placeholder="List of Addresses in CSV"></textarea>
+                                                        <textarea readOnly="true" name="comments" id="comments"  rows="4" className="form-control" placeholder="List of Addresses in CSV"
+                                                            value={ShowTokenAddresses}
+                                                        >
+
+                                                        </textarea>
                                                     </div>
                                                 </Col>
                                             </Row>
@@ -253,7 +393,7 @@ export default function Features(props) {
                                                     <div id="simple-msg"></div>    
                                                 </Col>
                                                 <Col lg="4" className="text-center">
-                                                    <ReactFileReader fileTypes={".csv"} multipleFiles={false} handleFiles={uploadCsvForToken}>
+                                                    <ReactFileReader fileTypes={[".csv",".xlsx","xlsm",".xlsb","xltx",".xltm",".xls",".xlt",".xml",".xlam",".xla","xlw",".xlr"]} multipleFiles={false} handleFiles={uploadCsvForToken}>
                                                         <button  className="submitBnt btn btn-custom">Upload CSV file </button>
                                                         <div id="simple-msg"></div>
                                                     </ReactFileReader>                                                  

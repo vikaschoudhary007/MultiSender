@@ -15,8 +15,7 @@ import ScrollspyNav from "./scrollSpy";
 //Import Stickey Header
 import StickyHeader from 'react-sticky-header';
 import '../../../node_modules/react-sticky-header/styles.css';
-import Modal from "./ModalSection";
-import ConnectWallet from "./connectWallet";
+import ModalForTron from "./ModalSectionForTron";
 
 class Navbar_Page extends Component {
     constructor(props){
@@ -24,7 +23,7 @@ class Navbar_Page extends Component {
         this.state = {
             navItems : [
                 { id: 1 , idnm : "home", navheading: "Home" },
-                { id: 2 , idnm : "features", navheading: "MultiSendEther" },
+                { id: 2 , idnm : "features", navheading: "MultiSendTRX" },
                 // { id: 3 , idnm : "services", navheading: "MultiSendTrx" },
                 ],
             isOpenMenu :false
@@ -39,7 +38,7 @@ class Navbar_Page extends Component {
     }
 
     truncate(str) {
-        return str.length > 10  ? str.substring(0,6) + "..." + str.substring(38,42): str;
+        return str.length > 10  ? str.substring(0,6) + "..." + str.substring(30,34): str;
     }
     
     render() {
@@ -78,24 +77,24 @@ class Navbar_Page extends Component {
                                             ))} 
                                         </Nav>
                                         </ScrollspyNav>
-                                        <Nav className="navbar-left" navbar>
+                                        {/* <Nav className="navbar-left" navbar>
                                             <NavItem>
-                                                <NavLink href={"/"}>MultiSendTrx</NavLink>
+                                                <NavLink href={"/ethereum"}>MultiSendEther</NavLink>
                                             </NavItem>
-                                        </Nav>
+                                        </Nav> */}
                                         <div className="nav-button ml-auto">
                                             <Nav className="navbar-right" navbar>
-                                                <NavItem>
-                                                    <Modal  Contract = {this.props.multiSender} account = {this.props.account} walletConnected={this.props.walletConnected} />
-                                                </NavItem>
+                                                {/* <NavItem>
+                                                    <ModalForTron  address={this.props.address} walletConnected={this.props.walletConnected} multisender={this.props.multisender}/>
+                                                </NavItem> */}
 
                                                 <NavItem className={"active"}>
                                                     
                                                     {
                                                         this.props.walletConnected
-                                                        ? (<NavLink>{this.truncate(this.props.account)}
+                                                        ? 
+                                                            (<NavLink>{this.truncate(this.props.address)}</NavLink>)
                                                             
-                                                            </NavLink>)
                                                         : (<p></p>)
                                                     }
                                                     
@@ -103,9 +102,9 @@ class Navbar_Page extends Component {
                                                 <NavItem>
                                                     
                                                       {this.props.walletConnected
-                                                        ? <Button type="button" className="btn-custom navbar-btn btn-rounded waves-effect waves-light" onClick={this.props.handleConnectWallet}>Change Wallet</Button>
+                                                        ? <Button type="button" className="btn-custom navbar-btn btn-rounded waves-effect waves-light" onClick={this.props.connectTronWallet}>Change Wallet</Button>
 
-                                                        : <Button type="button" className="btn-custom navbar-btn btn-rounded waves-effect waves-light" onClick={this.props.handleConnectWallet}>Connect Wallet</Button>
+                                                        : <Button type="button" className="btn-custom navbar-btn btn-rounded waves-effect waves-light" onClick={this.props.connectTronWallet}>Connect Wallet</Button>
                                                       }                                                 
                                                     
                                                 </NavItem>
